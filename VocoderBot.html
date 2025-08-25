@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocoder Bot Example</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 20px; }
+  input, button { margin: 5px 0; padding: 5px; }
+  video, audio { display: block; margin-top: 20px; max-width: 600px; }
+</style>
+</head>
+<body>
+
+<h1>Vocoder Bot Example</h1>
+
+<label>Choose a video:</label>
+<input type="file" id="videoInput" accept="video/*"><br>
+
+<label>Modulator (Audio URL/File):</label>
+<input type="text" id="modulatorUrl" placeholder="Enter audio URL">
+<input type="file" id="modulatorFile" accept="audio/*"><br>
+
+<label>Carrier (Audio URL/File):</label>
+<input type="text" id="carrierUrl" placeholder="Enter audio URL">
+<input type="file" id="carrierFile" accept="audio/*"><br>
+
+<button id="applyVocoder">Apply Vocoder</button>
+
+<video id="video" controls></video>
+<audio id="modulatorAudio" controls></audio>
+<audio id="carrierAudio" controls></audio>
+
+<script>
+const videoInput = document.getElementById('videoInput');
+const modulatorFile = document.getElementById('modulatorFile');
+const modulatorUrl = document.getElementById('modulatorUrl');
+const carrierFile = document.getElementById('carrierFile');
+const carrierUrl = document.getElementById('carrierUrl');
+
+const video = document.getElementById('video');
+const modAudio = document.getElementById('modulatorAudio');
+const carAudio = document.getElementById('carrierAudio');
+
+videoInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) video.src = URL.createObjectURL(file);
+});
+
+modulatorFile.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) modAudio.src = URL.createObjectURL(file);
+});
+
+carrierFile.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) carAudio.src = URL.createObjectURL(file);
+});
+
+document.getElementById('applyVocoder').addEventListener('click', () => {
+  const modSource = modulatorUrl.value || modAudio.src;
+  const carSource = carrierUrl.value || carAudio.src;
+
+  if (!video.src) return alert('Please select a video.');
+  if (!modSource) return alert('Please provide a modulator audio.');
+  if (!carSource) return alert('Please provide a carrier audio.');
+
+  console.log('Applying vocoder with:');
+  console.log('Video:', video.src);
+  console.log('Modulator:', modSource);
+  console.log('Carrier:', carSource);
+  alert('Vocoder applied (demo, console log).');
+
+  // Real vocoder processing requires backend or Web Audio API
+});
+</script>
+
+</body>
+</html>
